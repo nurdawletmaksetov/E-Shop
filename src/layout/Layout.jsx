@@ -4,6 +4,7 @@ import { BottomNav } from '../components/bottomNav/BottomNav'
 import Categories from '../components/categories/Categories'
 import { useMediaQuery } from '@mantine/hooks'
 import { Outlet } from 'react-router-dom'
+import Footer from '../components/footer/Footer'
 
 export const Layout = () => {
     const matches = useMediaQuery('(min-width: 800px)');
@@ -16,6 +17,7 @@ export const Layout = () => {
             {phone && <Categories matches={matches} />}
             <Outlet matches={matches} phone={phone} />
             <BottomNav />
+            <Footer />
         </>
     )
 }

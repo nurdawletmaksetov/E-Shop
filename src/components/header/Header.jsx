@@ -10,7 +10,7 @@ export const Header = ({ matches }) => {
 
     return (
         <>
-            <header>
+            <header className={hideBar ? "" : "bg-white sticky top-0 left-0 right-0 z-40"}>
                 <Container>
                     <Flex gap={15} align={"center"} py={20} justify={"space-between"}>
                         <Link to="/">
