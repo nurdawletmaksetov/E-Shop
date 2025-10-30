@@ -45,7 +45,7 @@ const AllProducts = () => {
                             id={el.id}
                             title={el.title}
                             price={el.price}
-                            image={el.images}
+                            image={el.thumbnail}
                             rating={el.rating}
                             reviews={el.reviews}
                         />
