@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "../layout/Layout";
 import Home from "../pages/home/Home";
 import ViewProduct from "../pages/viewProduct/ViewProduct";
+import Favourites from "../pages/favourites/Favourites";
 
 export const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ export const router = createBrowserRouter([
             {
                 path: "/products/:id",
                 element: <ViewProduct />
+            },
+            {
+                path: "/favourites",
+                element: <Favourites />
             }
         ]
     }

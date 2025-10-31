@@ -1,11 +1,16 @@
 import React from 'react'
 import { Container } from '../../container/container'
-import { ActionIcon, Button, Flex, TextInput, Title } from '@mantine/core'
-import { Link } from 'react-router-dom'
+import { ActionIcon, Badge, Button, Flex, TextInput, Title } from '@mantine/core'
+import { Link, NavLink } from 'react-router-dom'
 import { Heart, Search, ShoppingBasket, User } from 'lucide-react'
 import { useMediaQuery } from '@mantine/hooks'
+import { useFavoritesStore } from '../../store/useFavoritesStore'
 
 export const Header = ({ matches }) => {
+
+    const favourites = useFavoritesStore((state) => state.favorites);
+
+    const favouritesCount = favourites?.length ?? 0;
     const hideBar = useMediaQuery('(min-width: 500px)');
 
     return (
@@ -64,19 +69,36 @@ export const Header = ({ matches }) => {
                                         <User color="#7f4dff" size={16} />
                                     )}
                                 </Button>
-                                <Button
-                                    size={matches ? "sm" : "xs"}
-                                    variant="light"
-                                    color="#7f4dff"
-                                >
-                                    {matches ? (
-                                        <Flex justify={"space-between"} gap={6}>
-                                            <Heart color='#7f4dff' size={16} /> Favourites
-                                        </Flex>
-                                    ) : (
-                                        <Heart color='#7f4dff' size={16} />
+                                <NavLink to="/favourites" style={{ position: "relative" }}>
+                                    <Button
+                                        size={matches ? "sm" : "xs"}
+                                        variant="light"
+                                        color="#7f4dff"
+                                    >
+                                        {matches ? (
+                                            <Flex justify={"space-between"} gap={6}>
+                                                <Heart color='#7f4dff' size={16} /> Favourites
+                                            </Flex>
+                                        ) : (
+                                            <Heart color='#7f4dff' size={16} />
+                                        )}
+                                    </Button>
+                                    {favouritesCount > 0 && (
+                                        <Badge
+                                            variant="filled"
+                                            color="red"
+                                            bdrs={2}
+                                            p={matches ? 5 : 4}
+                                            size={matches ? "xs" : "10px"}
+                                            pos={"absolute"}
+                                            top={0}
+                                            right={0}
+                                            aria-label={`${favouritesCount} favourites`}
+                                        >
+                                            {favouritesCount}
+                                        </Badge>
                                     )}
-                                </Button>
+                                </NavLink>
                                 <Button
                                     size={matches ? "sm" : "xs"}
                                     variant='light'
