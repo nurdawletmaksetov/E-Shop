@@ -80,7 +80,7 @@ const ViewProduct = () => {
                         </Stack>
                     </Stack>
                     <Stack w={isSmall ? "100%" : "40%"}>
-                        <Card shadow="sm" radius="md" withBorder>
+                        <Card radius="md" withBorder>
                             <Flex mb={5} justify="space-between" align="center">
                                 <Badge py={1} px={5} color="#7f4dff">
                                     <Text size='xs' fw={600}>-{oneProduct?.discountPercentage}%</Text>
@@ -126,13 +126,13 @@ const ViewProduct = () => {
                                 <Text c={"#1f1f1f"}>{oneProduct?.minimumOrderQuantity} per order</Text>
                             </Flex>
                         </Card>
-                        <Card shadow="sm" radius="md" withBorder>
+                        <Card radius="md" withBorder>
                             <Flex direction={"column"}>
                                 <Title order={4}>Shipping Information</Title>
                                 <Text>{oneProduct?.shippingInformation}</Text>
                             </Flex>
                         </Card>
-                        <Card shadow="sm" radius="md" withBorder>
+                        <Card radius="md" withBorder>
                             <Flex direction={"column"}>
                                 <Title order={4}>Return Policy</Title>
                                 <Text>{oneProduct?.returnPolicy}</Text>

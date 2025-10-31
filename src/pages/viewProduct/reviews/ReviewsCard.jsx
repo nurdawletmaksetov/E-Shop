@@ -28,7 +28,12 @@ const ReviewsCard = (props) => {
 
     return (
         <>
-            <Card shadow="sm" h={isSmall ? 150 : 200} pb={40} radius="md" withBorder>
+            <Card
+                h={isSmall ? 150 : 200}
+                pb={40}
+                radius="md"
+                withBorder
+            >
                 <Group mb={5} justify="space-between" align="center">
                     <Text fw={500}>{reviewerName}</Text>
                     <Badge color="transparent">

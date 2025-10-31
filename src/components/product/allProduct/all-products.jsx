@@ -48,6 +48,11 @@ const AllProducts = () => {
                             image={el.thumbnail}
                             rating={el.rating}
                             reviews={el.reviews}
+                            discountPercentage={el.discountPercentage}
+                            stock={el.stock}
+                            returnPolicy={el.returnPolicy}
+                            warrantyInformation={el.warrantyInformation}
+                            shippingInformation={el.shippingInformation}
                         />
                     ))}
             </SimpleGrid>
