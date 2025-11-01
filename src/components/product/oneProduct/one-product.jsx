@@ -34,6 +34,7 @@ const OneProduct = (props) => {
     const inBasket = Boolean(inBasketItem);
     const quantity = inBasketItem?.quantity || 1;
 
+
     const isFavorite = favorites.some((item) => item.id === id);
     const isSmall = useMediaQuery("(max-width: 800px)");
     const isSmaller = useMediaQuery("(max-width: 375px)");
@@ -41,10 +42,43 @@ const OneProduct = (props) => {
     const isSmallest = useMediaQuery("(max-width: 555px)");
 
     const [opened, setOpened] = useState(false);
+    const [isTempAdded, setIsTempAdded] = useState(false);
+    const [isConfirmed, setIsConfirmed] = useState(false);
+
+    const handleCloseModal = () => {
+        setOpened(false);
+
+        if (isTempAdded && !isConfirmed) {
+            toggleBasketFn({ id });
+        }
+
+        setIsTempAdded(false);
+        setIsConfirmed(false);
+    };
+
 
     const handleAddClick = () => {
         setOpened(true);
+
+        if (!inBasket) {
+            toggleBasketFn({
+                id,
+                title,
+                price,
+                image,
+                rating,
+                reviews,
+                stock,
+                description,
+                warrantyInformation,
+                shippingInformation,
+                quantity: 1,
+            });
+            setIsTempAdded(true);
+            setIsConfirmed(false);
+        }
     };
+
 
     const handleIncrement = () => {
         if (quantity < stock) increaseQuantityFn(id);
@@ -125,6 +159,7 @@ const OneProduct = (props) => {
                                 letterSpacing: "0.3px",
                             }}
                             onClick={handleAddClick}
+
                         >
                             {isSmall ? "Add" : "Add to Basket"}
                         </Button>
@@ -162,7 +197,8 @@ const OneProduct = (props) => {
                 {!hiddeModal ? (
                     <Modal
                         opened={opened}
-                        onClose={() => setOpened(false)}
+                        // onClose={() => setOpened(false)}
+                        onClose={handleCloseModal}
                         title={"Add to basket"}
                         overlayProps={{ opacity: 10 }}
                         centered
@@ -254,21 +290,10 @@ const OneProduct = (props) => {
                                     color="#7f4dff"
 
                                     onClick={() => {
-                                        toggleBasketFn({
-                                            id,
-                                            title,
-                                            price,
-                                            image,
-                                            rating,
-                                            reviews,
-                                            stock,
-                                            description,
-                                            warrantyInformation,
-                                            shippingInformation,
-                                            quantity,
-                                        });
+                                        setIsConfirmed(true);
                                         setOpened(false);
                                     }}
+
                                 >
                                     <Flex direction={"column"}>
                                         <Text fw={600} size="sm">
@@ -298,7 +323,8 @@ const OneProduct = (props) => {
                     <>
                         <Modal
                             opened={opened}
-                            onClose={() => setOpened(false)}
+                            // onClose={() => setOpened(false)}
+                            onClose={handleCloseModal}
                             size="lg"
                             zIndex={10000}
                             title={null}
@@ -363,19 +389,7 @@ const OneProduct = (props) => {
                                         h={40}
                                         color="#7f4dff"
                                         onClick={() => {
-                                            toggleBasketFn({
-                                                id,
-                                                title,
-                                                price,
-                                                image,
-                                                rating,
-                                                reviews,
-                                                stock,
-                                                description,
-                                                warrantyInformation,
-                                                shippingInformation,
-                                                quantity,
-                                            });
+                                            setIsConfirmed(true);
                                             setOpened(false);
                                         }}
                                     >
