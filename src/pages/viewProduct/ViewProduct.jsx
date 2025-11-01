@@ -3,13 +3,14 @@ import { Container } from '../../container/container'
 import { useEffect, useState } from 'react'
 import { api } from '../../api/api'
 import { useParams } from 'react-router-dom'
-import { FaHeart, FaRegHeart, FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa'
+import { FaHeart, FaMinus, FaPlus, FaRegHeart, FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa'
 import ReviewsSlide from './reviews/ReviewsSlide'
 import ImageSwiper from './image/ImageSwiper'
 import AllProducts from '../../components/product/allProduct/all-products'
 import { Check, Heart, ShoppingBag } from 'lucide-react'
 import { useMediaQuery } from '@mantine/hooks'
 import { useFavoritesStore } from '../../store/useFavoritesStore'
+import { useBasketStore } from '../../store/useBasketStore'
 
 const ViewProduct = () => {
     const [oneProduct, setOneProduct] = useState({})
@@ -19,6 +20,25 @@ const ViewProduct = () => {
 
     const isFavorite = favorites.some((item) => String(item.id) === String(id));
 
+    const {
+        basket,
+        toggleBasketFn,
+        increaseQuantityFn,
+        decreaseQuantityFn,
+    } = useBasketStore();
+
+    const inBasketItem = basket.find((item) => String(item.id) === String(id));
+    const inBasket = Boolean(inBasketItem);
+    const quantity = inBasketItem?.quantity || 1;
+
+    const handleIncrement = () => {
+        if (quantity < oneProduct?.stock) increaseQuantityFn(id);
+    };
+
+    const handleDecrement = () => {
+        if (quantity > 1) decreaseQuantityFn(id);
+        else toggleBasketFn({ id });
+    };
     async function getOneProduct() {
         try {
             const { data } = await api.get(`/products/${id}`)
@@ -105,14 +125,71 @@ const ViewProduct = () => {
                                             reviews: oneProduct.reviews,
                                         })
                                     }
-                                >{isFavorite ? <FaHeart color={"red"} size={20} /> : <Heart color={"#000"} size={20} />}</Button>
+                                >
+                                    {isFavorite ? <FaHeart color={"red"} size={20} /> : <Heart color={"#000"} size={20} />}
+                                </Button>
                             </Flex>
-                            <Button mt={10} w={"100%"} h={60} bg={"#7f4dff"} c={"#fff"} radius="md">
-                                <Flex direction={"column"}>
-                                    <Text fw={600} size='lg'>Add to Cart</Text>
-                                    <Text size='sm'>{oneProduct?.shippingInformation}</Text>
+                            {!inBasket ? (
+                                <Button
+                                    onClick={() => {
+                                        toggleBasketFn({
+                                            id: Number(oneProduct.id),
+                                            title: oneProduct.title,
+                                            description: oneProduct.description,
+                                            price: oneProduct.price,
+                                            image: oneProduct.images?.[0],
+                                            rating: oneProduct.rating,
+                                            reviews: oneProduct.reviews,
+                                            stock: oneProduct.stock,
+                                            warrantyInformation: oneProduct.warrantyInformation,
+                                            shippingInformation: oneProduct.shippingInformation
+                                        });
+                                    }}
+                                    mt={10}
+                                    w={"100%"}
+                                    h={60}
+                                    bg={"#7f4dff"}
+                                    c={"#fff"}
+                                    radius="md"
+                                >
+                                    <Flex direction={"column"}>
+                                        <Text fw={600} size='lg'>Add to Basket</Text>
+                                        <Text size='sm'>{oneProduct?.shippingInformation}</Text>
+                                    </Flex>
+                                </Button>
+                            ) : (
+                                <Flex
+                                    align="center"
+                                    justify="space-between"
+                                    w="100%"
+                                    mt={10}
+                                    h={60}
+                                    radius="md"
+                                    bg="#f3eaff"
+                                    px={isSmall ? 5 : 10}
+                                    py={isSmall ? 0 : 5}
+                                    style={{ borderRadius: "8px" }}
+                                >
+                                    <ActionIcon
+                                        onClick={handleDecrement}
+                                        color="#7f4dff"
+                                        variant="transparent"
+                                        radius="xl"
+                                    >
+                                        <FaMinus />
+                                    </ActionIcon>
+                                    <Text fw={600}>{quantity}</Text>
+                                    <ActionIcon
+                                        onClick={handleIncrement}
+                                        color="#7f4dff"
+                                        variant="transparent"
+                                        radius="xl"
+                                        disabled={quantity === oneProduct?.stock}
+                                    >
+                                        <FaPlus />
+                                    </ActionIcon>
                                 </Flex>
-                            </Button>
+                            )}
                             <Flex mt={10} gap={10}>
                                 <Badge py={12} px={5} bg={"#BCE68C"} radius="md">
                                     <Check color='#000' size={16} />

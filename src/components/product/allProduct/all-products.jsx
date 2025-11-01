@@ -16,6 +16,7 @@ const AllProducts = () => {
             const { data } = await api.get('/products');
             const productList = Array.isArray(data) ? data : data.products;
             setProducts(productList);
+            console.log(data);
         } catch (error) {
             console.error('Xato:', error);
         }
@@ -44,6 +45,7 @@ const AllProducts = () => {
                             key={el.id}
                             id={el.id}
                             title={el.title}
+                            description={el.description}
                             price={el.price}
                             image={el.thumbnail}
                             rating={el.rating}

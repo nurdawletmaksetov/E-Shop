@@ -5,12 +5,18 @@ import { Link, NavLink } from 'react-router-dom'
 import { Heart, Search, ShoppingBasket, User } from 'lucide-react'
 import { useMediaQuery } from '@mantine/hooks'
 import { useFavoritesStore } from '../../store/useFavoritesStore'
+import { useBasketStore } from '../../store/useBasketStore'
 
 export const Header = ({ matches }) => {
 
     const favourites = useFavoritesStore((state) => state.favorites);
 
     const favouritesCount = favourites?.length ?? 0;
+
+    const basket = useBasketStore((state) => state.basket);
+
+    const basketCount = basket?.length ?? 0;
+
     const hideBar = useMediaQuery('(min-width: 500px)');
 
     return (
@@ -69,7 +75,7 @@ export const Header = ({ matches }) => {
                                         <User color="#7f4dff" size={16} />
                                     )}
                                 </Button>
-                                <NavLink to="/favourites" style={{ position: "relative" }}>
+                                <NavLink to="/favourites" className={"relative"}>
                                     <Button
                                         size={matches ? "sm" : "xs"}
                                         variant="light"
@@ -99,19 +105,36 @@ export const Header = ({ matches }) => {
                                         </Badge>
                                     )}
                                 </NavLink>
-                                <Button
-                                    size={matches ? "sm" : "xs"}
-                                    variant='light'
-                                    color='#7f4dff'
-                                >
-                                    {matches ? (
-                                        <Flex justify={"space-between"} gap={6}>
-                                            <ShoppingBasket color='#7f4dff' size={16} /> Basket
-                                        </Flex>
-                                    ) : (
-                                        <ShoppingBasket color='#7f4dff' size={16} />
+                                <NavLink to="/basket" className={"relative"}>
+                                    <Button
+                                        size={matches ? "sm" : "xs"}
+                                        variant='light'
+                                        color='#7f4dff'
+                                    >
+                                        {matches ? (
+                                            <Flex justify={"space-between"} gap={6}>
+                                                <ShoppingBasket color='#7f4dff' size={16} /> Basket
+                                            </Flex>
+                                        ) : (
+                                            <ShoppingBasket color='#7f4dff' size={16} />
+                                        )}
+                                    </Button>
+                                    {basketCount > 0 && (
+                                        <Badge
+                                            variant="filled"
+                                            color="red"
+                                            bdrs={2}
+                                            p={matches ? 5 : 4}
+                                            size={matches ? "xs" : "10px"}
+                                            pos={"absolute"}
+                                            top={0}
+                                            right={0}
+                                            aria-label={`${basketCount} favourites`}
+                                        >
+                                            {basketCount}
+                                        </Badge>
                                     )}
-                                </Button>
+                                </NavLink>
                             </Flex>
                         ) : (
                             <>
@@ -124,14 +147,16 @@ export const Header = ({ matches }) => {
                                     >
                                         <Search color='#7f4dff' size={20} />
                                     </ActionIcon>
-                                    <ActionIcon
-                                        size={matches ? "sm" : "xs"}
-                                        className='cursor-pointer'
-                                        variant="transparent"
-                                        type="submit"
-                                    >
-                                        <Heart color='#7f4dff' size={20} />
-                                    </ActionIcon>
+                                    <Link to="/favourites">
+                                        <ActionIcon
+                                            size={matches ? "sm" : "xs"}
+                                            className='cursor-pointer'
+                                            variant="transparent"
+                                            type="submit"
+                                        >
+                                            <Heart color='#7f4dff' size={20} />
+                                        </ActionIcon>
+                                    </Link>
                                 </Flex>
                             </>
                         )}

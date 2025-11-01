@@ -1,27 +1,48 @@
-import { ActionIcon, Badge, Button, Card, Flex, Group, Image, Modal, Stack, Text, Title, Tooltip } from "@mantine/core";
+import {
+    ActionIcon,
+    Badge,
+    Button,
+    Card,
+    Flex,
+    Group,
+    Image,
+    Modal,
+    Stack,
+    Text,
+    Title,
+    Tooltip,
+} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { FaHeart, FaMinus, FaPlus, FaRegHeart, FaShoppingBasket, FaStar, FaTimes } from "react-icons/fa";
+import {
+    FaHeart,
+    FaMinus,
+    FaPlus,
+    FaRegHeart,
+    FaShoppingBasket,
+    FaStar,
+    FaTimes,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useFavoritesStore } from "../../../store/useFavoritesStore";
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { useBasketStore } from "../../../store/useBasketStore";
 
-const OneProduct = (props) => {
+const test = (props) => {
     const {
         title,
         price,
         image,
         stock,
-        description,
         warrantyInformation,
         rating,
         reviews,
         id,
         returnPolicy,
         discountPercentage,
-        shippingInformation
+        shippingInformation,
     } = props;
+
     const { favorites, toggleFavoriteFn } = useFavoritesStore();
     const {
         basket,
@@ -52,19 +73,20 @@ const OneProduct = (props) => {
 
     const handleDecrement = () => {
         if (quantity > 1) decreaseQuantityFn(id);
-        else toggleBasketFn({ id });
+        else toggleBasketFn({ id }); // quantity 1 bo‘lsa olib tashlaydi
     };
+
     return (
         <>
             <Card
-                onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '1px 1px 7px #C3C3C3')}
-                onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '')}
+                onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "1px 1px 7px #C3C3C3")}
+                onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "")}
                 padding={isSmaller ? 6 : 10}
                 radius="md"
                 withBorder
                 className="cursor-pointer"
                 style={{
-                    transition: "ease-in-out .2s"
+                    transition: "ease-in-out .2s",
                 }}
             >
                 <Link to={`/products/${id}`}>
@@ -89,8 +111,12 @@ const OneProduct = (props) => {
 
                     <Flex gap={5} align="center">
                         <FaStar className="text-yellow-500" size={13} />
-                        <Text c="gray" size="13px">{rating?.toFixed(1)}</Text>
-                        <Text c="gray" size="13px">({reviews?.length || 0} reviews)</Text>
+                        <Text c="gray" size="13px">
+                            {rating?.toFixed(1)}
+                        </Text>
+                        <Text c="gray" size="13px">
+                            ({reviews?.length || 0} reviews)
+                        </Text>
                     </Flex>
                 </Link>
 
@@ -107,11 +133,14 @@ const OneProduct = (props) => {
                             radius="md"
                             size={isSmall ? "md" : "lg"}
                             style={{ transition: "all 0.2s ease" }}
-                            onClick={() => toggleFavoriteFn({ id, title, price, image, rating, reviews })}
+                            onClick={() =>
+                                toggleFavoriteFn({ id, title, price, image, rating, reviews })
+                            }
                         >
                             {isFavorite ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
                         </ActionIcon>
                     </Tooltip>
+
                     {!inBasket ? (
                         <Button
                             fullWidth
@@ -159,6 +188,8 @@ const OneProduct = (props) => {
                         </Flex>
                     )}
                 </Flex>
+
+                {/* Desktop Modal */}
                 {!hiddeModal ? (
                     <Modal
                         opened={opened}
@@ -170,11 +201,7 @@ const OneProduct = (props) => {
                         zIndex={1000}
                     >
                         <Flex gap="md">
-                            <Flex
-                                direction="column"
-                                w={"50%"}
-                                gap={5}
-                            >
+                            <Flex direction="column" w={"50%"} gap={5}>
                                 <Image
                                     src={Array.isArray(image) ? image[0] : image}
                                     alt={title}
@@ -195,11 +222,7 @@ const OneProduct = (props) => {
                             </Flex>
                             <Flex direction="column" w={"50%"}>
                                 <Title order={3}>{title}</Title>
-                                <Title
-                                    order={2}
-                                    fw={"bold"}
-                                    c="#7f4dff"
-                                >
+                                <Title order={2} fw={"bold"} c="#7f4dff">
                                     ${price} USD
                                 </Title>
                                 <Badge color="#7f4dff" size={isSmall ? "xs" : "sm"}>
@@ -216,7 +239,7 @@ const OneProduct = (props) => {
                                         style={{ borderRadius: "8px" }}
                                     >
                                         <ActionIcon
-                                            onClick={handleDecrement}
+                                            onClick={() => decreaseQuantityFn(id)}
                                             color="#7f4dff"
                                             disabled={quantity <= 1}
                                             variant="transparent"
@@ -226,8 +249,8 @@ const OneProduct = (props) => {
                                         </ActionIcon>
                                         <Text fw={600}>{quantity}</Text>
                                         <ActionIcon
-                                            onClick={handleIncrement}
-                                            disabled={quantity === stock}
+                                            onClick={() => handleIncrement()}
+                                            disabled={quantity >= stock}
                                             color="#7f4dff"
                                             variant="transparent"
                                             radius="xl"
@@ -252,7 +275,6 @@ const OneProduct = (props) => {
                                     mt="md"
                                     h={40}
                                     color="#7f4dff"
-
                                     onClick={() => {
                                         toggleBasketFn({
                                             id,
@@ -262,10 +284,6 @@ const OneProduct = (props) => {
                                             rating,
                                             reviews,
                                             stock,
-                                            description,
-                                            warrantyInformation,
-                                            shippingInformation,
-                                            quantity,
                                         });
                                         setOpened(false);
                                     }}
@@ -274,9 +292,7 @@ const OneProduct = (props) => {
                                         <Text fw={600} size="sm">
                                             Add {quantity} to Basket
                                         </Text>
-                                        <Text size="xs">
-                                            {shippingInformation}
-                                        </Text>
+                                        <Text size="xs">{shippingInformation}</Text>
                                     </Flex>
                                 </Button>
                                 <Card my={10} radius="md" withBorder>
@@ -295,108 +311,120 @@ const OneProduct = (props) => {
                         </Flex>
                     </Modal>
                 ) : (
-                    <>
-                        <Modal
-                            opened={opened}
-                            onClose={() => setOpened(false)}
-                            size="lg"
-                            zIndex={10000}
-                            title={null}
-                            withCloseButton={false}
-                            transitionProps={{
-                                transition: isSmall ? "slide-up" : "fade",
-                                duration: 250,
-                            }}
-                            styles={{
-                                content: {
-                                    ...(isSmall && {
-                                        position: "fixed",
-                                        bottom: 0,
-                                        left: 0,
-                                        right: 0,
-                                        margin: 0,
-                                        borderTopLeftRadius: 16,
-                                        borderTopRightRadius: 16,
-                                        borderRadius: 0,
-                                        height: "auto",
-                                        maxHeight: "80vh",
-                                        overflowY: "auto",
-                                        animation: "slideUp 0.3s ease",
-                                    }),
-                                },
-                                inner: {
-                                    ...(isSmall && {
-                                        padding: 0,
-                                        alignItems: "flex-end",
-                                    }),
-                                },
-                            }}
-                            overlayProps={{
-                                opacity: 5,
-                            }}
-                        >
-                            <Stack>
-                                <Flex gap={10} w={"100%"}>
-                                    <Image
-                                        src={Array.isArray(image) ? image[0] : image}
-                                        alt={title}
-                                        radius="md"
-                                        w={"25%"}
-                                    />
-                                    <Flex w={"100%"} justify={"space-between"}>
-                                        <Flex direction={"column"} gap={5}>
-                                            <Title order={isSmaller ? 6 : isSmallest ? 4 : 3}>{title}</Title>
-                                            <Badge color="#7f4dff" size={isSmall ? "xs" : "sm"}>-{discountPercentage}%</Badge>
-                                            <Badge color="pink" size={isSmall ? "xs" : "sm"} >{warrantyInformation}</Badge>
-                                            <Title order={6} fw={"bold"} c="#7f4dff">${price} USD</Title>
-                                        </Flex>
-                                        <ActionIcon onClick={() => setOpened(false)} variant="subtle" color="gray">
-                                            <FaTimes />
-                                        </ActionIcon>
+                    // ✅ Mobile Modal
+                    <Modal
+                        opened={opened}
+                        onClose={() => setOpened(false)}
+                        size="lg"
+                        zIndex={10000}
+                        title={null}
+                        withCloseButton={false}
+                        transitionProps={{
+                            transition: isSmall ? "slide-up" : "fade",
+                            duration: 250,
+                        }}
+                        styles={{
+                            content: {
+                                ...(isSmall && {
+                                    position: "fixed",
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    margin: 0,
+                                    borderTopLeftRadius: 16,
+                                    borderTopRightRadius: 16,
+                                    borderRadius: 0,
+                                    height: "auto",
+                                    maxHeight: "80vh",
+                                    overflowY: "auto",
+                                    animation: "slideUp 0.3s ease",
+                                }),
+                            },
+                            inner: {
+                                ...(isSmall && {
+                                    padding: 0,
+                                    alignItems: "flex-end",
+                                }),
+                            },
+                        }}
+                        overlayProps={{
+                            opacity: 5,
+                        }}
+                    >
+                        <Stack>
+                            <Flex gap={10} w={"100%"}>
+                                <Image
+                                    src={Array.isArray(image) ? image[0] : image}
+                                    alt={title}
+                                    radius="md"
+                                    w={"25%"}
+                                />
+                                <Flex w={"100%"} justify={"space-between"}>
+                                    <Flex direction={"column"} gap={5}>
+                                        <Title
+                                            order={isSmaller ? 6 : isSmallest ? 4 : 3}
+                                        >
+                                            {title}
+                                        </Title>
+                                        <Badge color="#7f4dff" size={isSmall ? "xs" : "sm"}>
+                                            -{discountPercentage}%
+                                        </Badge>
+                                        <Badge color="pink" size={isSmall ? "xs" : "sm"}>
+                                            {warrantyInformation}
+                                        </Badge>
+                                        <Title order={6} fw={"bold"} c="#7f4dff">
+                                            ${price} USD
+                                        </Title>
                                     </Flex>
-                                </Flex>
-                                <Flex gap={10} align={"center"} justify={"space-between"}>
-                                    <Title order={4} fw={"bold"} color="#7f4dff">${price} USD</Title>
-                                    <Button
-                                        radius="md"
-                                        px={20}
-                                        h={40}
-                                        color="#7f4dff"
-                                        onClick={() => {
-                                            toggleBasketFn({
-                                                id,
-                                                title,
-                                                price,
-                                                image,
-                                                rating,
-                                                reviews,
-                                                stock,
-                                                description,
-                                                warrantyInformation,
-                                                shippingInformation,
-                                                quantity,
-                                            });
-                                            setOpened(false);
-                                        }}
+                                    <ActionIcon
+                                        onClick={() => setOpened(false)}
+                                        variant="subtle"
+                                        color="gray"
                                     >
-                                        <Flex direction={"column"}>
-                                            <Text fw={600} size="sm">
-                                                Add {quantity} to Basket
-                                            </Text>
-
-                                            <Text size="xs">
-                                                {shippingInformation}
-                                            </Text>
-                                        </Flex>
-                                    </Button>
+                                        <FaTimes />
+                                    </ActionIcon>
                                 </Flex>
-                            </Stack>
-                        </Modal>
-                    </>
+                            </Flex>
+                            <Flex
+                                gap={10}
+                                align={"center"}
+                                justify={"space-between"}
+                            >
+                                <Title order={4} fw={"bold"} color="#7f4dff">
+                                    ${price} USD
+                                </Title>
+                                <Button
+                                    radius="md"
+                                    px={20}
+                                    h={40}
+                                    color="#7f4dff"
+                                    onClick={() => {
+                                        toggleBasketFn({
+                                            id,
+                                            title,
+                                            price,
+                                            image,
+                                            rating,
+                                            reviews,
+                                            stock,
+                                        });
+                                        setOpened(false);
+                                    }}
+                                >
+                                    <Flex direction={"column"}>
+                                        <Text fw={600} size="sm">
+                                            Add {quantity} to Basket
+                                        </Text>
+                                        <Text size="xs">{shippingInformation}</Text>
+                                    </Flex>
+                                </Button>
+                            </Flex>
+                        </Stack>
+                    </Modal>
                 )}
-            </Card >
+            </Card>
         </>
     );
 };
 
-export default OneProduct;
+export default test;

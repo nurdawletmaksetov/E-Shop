@@ -1,10 +1,15 @@
-import { Button, Flex, Text } from "@mantine/core";
+import { Badge, Button, Flex, Text } from "@mantine/core";
 import { Heart, ShoppingBasket, Home, User, Search } from "lucide-react";
 import { useMediaQuery } from "@mantine/hooks";
 import { NavLink } from "react-router-dom";
+import { useBasketStore } from "../../store/useBasketStore";
 
 export const BottomNav = () => {
-    const isMobile = useMediaQuery("(max-width: 768px)");
+    const isMobile = useMediaQuery("(max-width: 600px)");
+
+    const basket = useBasketStore((state) => state.basket);
+
+    const basketCount = basket?.length ?? 0;
 
     if (!isMobile) return null;
 
@@ -41,13 +46,28 @@ export const BottomNav = () => {
                 </Flex>
             </NavLink>
 
-            <NavLink to="/">
+            <NavLink className={"relative"} to="/basket">
                 <Flex direction={"column"} justify={"center"} align={'center'}>
                     <ShoppingBasket size={25} color="#7f4dff" />
                     <Text size="xs" c={"#7f4dff"}>
                         Basket
                     </Text>
                 </Flex>
+                {basketCount > 0 && (
+                    <Badge
+                        variant="filled"
+                        color="black"
+                        bdrs={999}
+                        p={5}
+                        size={"xs"}
+                        pos={"absolute"}
+                        top={-5}
+                        right={-10}
+                        aria-label={`${basketCount} favourites`}
+                    >
+                        {basketCount}
+                    </Badge>
+                )}
             </NavLink>
 
             <NavLink to="/">

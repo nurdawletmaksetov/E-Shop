@@ -9,12 +9,12 @@ const Favourites = () => {
     const { favorites, toggleFavoriteFn } = useFavoritesStore();
     const isSmall = useMediaQuery("(max-width: 800px)");
     const isSmaller = useMediaQuery("(max-width: 500px)");
-    const isSmallest = useMediaQuery("(max-width: 375px)");
+    const isMobile = useMediaQuery("(max-width: 600px)");
 
     return (
         <Container>
-            <Stack py={20}>
-                <Title order={2} pb={10} className="border-b border-b-gray-400">
+            <Stack py={isMobile ? 10 : 20}>
+                <Title order={isSmaller ? 4 : 2} pb={10} className="border-b border-b-gray-400">
                     Favourites
                 </Title>
 
@@ -30,7 +30,12 @@ const Favourites = () => {
                     >
                         {favorites.map((el) => (
                             <Card
+                                onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '1px 1px 7px #C3C3C3')}
+                                onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '')}
                                 padding={isSmaller ? 6 : 10}
+                                style={{
+                                    transition: "ease-in-out .2s"
+                                }}
                                 radius="md"
                                 withBorder
                                 className="cursor-pointer"
