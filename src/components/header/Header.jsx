@@ -35,7 +35,7 @@ export const Header = ({ matches }) => {
                                 onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
                                 onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                             >
-                                <Title order={1} c={"#7f4dff"} size={matches ? "30px" : "20px"}>
+                                <Title order={1} c={"#7f4dff"} size={matches ? "30px" : "22px"}>
                                     Shop
                                 </Title>
                                 <Title order={4} c={"#7f4dff"} size={matches ? "20px" : "15px"} style={{ letterSpacing: '1px' }}>
@@ -140,16 +140,16 @@ export const Header = ({ matches }) => {
                             <>
                                 <Flex align={"center"} gap={20}>
                                     <ActionIcon
-                                        size={matches ? "sm" : "xs"}
+                                        size={"md"}
                                         className='cursor-pointer'
                                         variant="transparent"
                                         type="submit"
                                     >
                                         <Search color='#7f4dff' size={20} />
                                     </ActionIcon>
-                                    <Link to="/favourites">
+                                    <Link to="/favourites" className={"flex items-center"}>
                                         <ActionIcon
-                                            size={matches ? "sm" : "xs"}
+                                            size={"md"}
                                             className='cursor-pointer'
                                             variant="transparent"
                                             type="submit"
