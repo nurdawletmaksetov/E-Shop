@@ -7,7 +7,7 @@ import { useFavoritesStore } from '../../store/useFavoritesStore'
 import { useBasketStore } from '../../store/useBasketStore'
 import { SearchModal } from '../SearchModal/SearchModal'
 
-export const Header = ({ matches }) => {
+export const Header = ({ matches, handleTopClick }) => {
     const [opened, { open, close }] = useDisclosure(false);
 
     const favourites = useFavoritesStore((state) => state.favorites);
@@ -26,7 +26,7 @@ export const Header = ({ matches }) => {
             <header className={hideBar ? "" : "bg-white sticky top-0 left-0 right-0 z-40"}>
                 <Container>
                     <Flex gap={15} align={"center"} py={20} justify={"space-between"}>
-                        <Link to="/">
+                        <Link to="/" onClick={handleTopClick}>
                             <Flex
                                 gap={4}
                                 align={"center"}
@@ -79,7 +79,7 @@ export const Header = ({ matches }) => {
                                         <User color="#7f4dff" size={16} />
                                     )}
                                 </Button>
-                                <NavLink to="/favourites" className={"relative"}>
+                                <NavLink to="/favourites" onClick={handleTopClick} className={"relative"}>
                                     <Button
                                         size={matches ? "sm" : "xs"}
                                         variant="light"
@@ -109,7 +109,7 @@ export const Header = ({ matches }) => {
                                         </Badge>
                                     )}
                                 </NavLink>
-                                <NavLink to="/basket" className={"relative"}>
+                                <NavLink to="/basket" onClick={handleTopClick} className={"relative"}>
                                     <Button
                                         size={matches ? "sm" : "xs"}
                                         variant='light'
@@ -157,7 +157,7 @@ export const Header = ({ matches }) => {
                                             size={"md"}
                                             className='cursor-pointer'
                                             variant="transparent"
-                                            onClick={open}
+                                            onClick={handleTopClick}
                                             type="submit"
                                         >
                                             <Heart color='#7f4dff' size={20} />

@@ -4,7 +4,7 @@ import OneProduct from '../oneProduct/one-product';
 import { Button, Flex, SimpleGrid } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
-const AllProducts = () => {
+const AllProducts = ({ handleTopClick }) => {
     const [products, setProducts] = useState([]);
     const [visibleCount, setVisibleCount] = useState(20);
 

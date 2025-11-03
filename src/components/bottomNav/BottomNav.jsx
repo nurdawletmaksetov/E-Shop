@@ -12,7 +12,9 @@ export const BottomNav = () => {
     const basketCount = basket?.length ?? 0;
 
     if (!isMobile) return null;
-
+    const handleTopClick = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    };
     return (
         <Flex
             justify="space-around"
@@ -28,7 +30,7 @@ export const BottomNav = () => {
                 zIndex: 1000,
             }}
         >
-            <NavLink to="/">
+            <NavLink to="/" onClick={handleTopClick}>
                 <Flex direction={"column"} justify={"center"} align={"center"}>
                     <Home size={25} color="#7f4dff" />
                     <Text size="xs" c={"#7f4dff"}>
@@ -37,7 +39,7 @@ export const BottomNav = () => {
                 </Flex>
             </NavLink>
 
-            <NavLink to="/">
+            <NavLink to="/" onClick={handleTopClick}>
                 <Flex direction={"column"} justify={"center"} align={"center"}>
                     <Search size={25} color="#7f4dff" />
                     <Text size="xs" c={"#7f4dff"}>
@@ -46,7 +48,7 @@ export const BottomNav = () => {
                 </Flex>
             </NavLink>
 
-            <NavLink className={"relative"} to="/basket">
+            <NavLink onClick={handleTopClick} className={"relative"} to="/basket">
                 <Flex direction={"column"} justify={"center"} align={'center'}>
                     <ShoppingBasket size={25} color="#7f4dff" />
                     <Text size="xs" c={"#7f4dff"}>
@@ -70,7 +72,7 @@ export const BottomNav = () => {
                 )}
             </NavLink>
 
-            <NavLink to="/">
+            <NavLink onClick={handleTopClick} to="/">
                 <Flex direction={"column"} justify={"center"} align={'center'}>
                     <User size={25} color="#7f4dff" />
                     <Text size="xs" c={"#7f4dff"}>

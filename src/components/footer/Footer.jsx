@@ -44,7 +44,7 @@ const Footer = () => {
                             <Text>Address: Earth</Text>
                         </Stack>
                     </Flex>
-                    <Flex w={"100%"} align={"center"} justify={"center"} py={15} className="border-t-1">
+                    <Flex w={"100%"} align={"center"} justify={"center"} py={15} className="border-t">
                         <Text>Copyright © 2025 Nurdawlet</Text>
                     </Flex>
                 </Container>

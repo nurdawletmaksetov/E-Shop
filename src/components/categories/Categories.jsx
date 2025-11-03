@@ -5,8 +5,9 @@ import { Container } from "../../container/container";
 import { useMediaQuery } from "@mantine/hooks";
 import { useFilter } from "../../context/Filter/FilterContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import { notifications } from "@mantine/notifications";
 
-const Categories = () => {
+const Categories = ({ handleTopClick }) => {
     const [categories, setCategories] = useState([]);
     const isLarge = useMediaQuery("(min-width: 1200px)");
     const isMedium = useMediaQuery("(min-width: 768px) and (max-width: 1199px)");
@@ -25,6 +26,7 @@ const Categories = () => {
 
         setSelectedCategory(selected);
         navigate("/filtered");
+        handleTopClick();
     };
 
     const visibleCategories = categories.slice(0, visibleCount);
@@ -77,6 +79,7 @@ const Categories = () => {
                         value={selectedCategory}
                         onChange={(val) => {
                             setSelectedCategory(val);
+                            handleTopClick();
                             navigate("/filtered");
                         }}
                         data={categories.slice(-10).map((el) => ({

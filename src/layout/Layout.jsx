@@ -10,12 +10,15 @@ export const Layout = () => {
     const matches = useMediaQuery('(min-width: 800px)');
     const phone = useMediaQuery('(min-width: 600px)');
 
+    const handleTopClick = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    };
 
     return (
         <>
-            <Header matches={matches} />
-            {phone && <Categories matches={matches} />}
-            <Outlet matches={matches} phone={phone} />
+            <Header matches={matches} handleTopClick={handleTopClick} />
+            {phone && <Categories matches={matches} handleTopClick={handleTopClick} />}
+            <Outlet matches={matches} phone={phone} handleTopClick={handleTopClick} />
             <BottomNav />
             <Footer />
         </>

@@ -3,14 +3,14 @@ import AllProducts from '../../components/product/allProduct/all-products'
 import { Container } from '../../container/container'
 import { Group } from '@mantine/core'
 
-const Home = ({ matches }) => {
+const Home = ({ matches, handleTopClick }) => {
     return (
         <>
             <section>
                 <Container>
                     <Group py={20}>
                         <AdBanner matches={matches} />
-                        <AllProducts />
+                        <AllProducts handleTopClick={handleTopClick} />
                     </Group>
                 </Container>
             </section>

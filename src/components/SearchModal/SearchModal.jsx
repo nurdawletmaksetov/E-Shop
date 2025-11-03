@@ -3,6 +3,7 @@ import { Modal, TextInput, ScrollArea, Flex, Text, ActionIcon, Loader } from "@m
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useFilter } from "../../context/Filter/FilterContext";
+import { notifications } from "@mantine/notifications";
 
 export const SearchModal = ({ opened, onClose }) => {
     const [query, setQuery] = useState("");
@@ -26,6 +27,11 @@ export const SearchModal = ({ opened, onClose }) => {
                 setProducts(data.products || []);
             } catch (err) {
                 console.error("Error fetching data:", err);
+                notifications.show({
+                    title: "Error",
+                    message: error.message || "Failed to fetch filtered products",
+                    color: "red",
+                })
             } finally {
                 setLoading(false);
             }

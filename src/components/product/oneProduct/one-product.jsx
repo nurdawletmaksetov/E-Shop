@@ -88,6 +88,10 @@ const OneProduct = (props) => {
         if (quantity > 1) decreaseQuantityFn(id);
         else toggleBasketFn({ id });
     };
+
+    const handleTopClick = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    };
     return (
         <>
             <Card
@@ -101,7 +105,7 @@ const OneProduct = (props) => {
                     transition: "ease-in-out .2s"
                 }}
             >
-                <Link to={`/products/${id}`}>
+                <Link onClick={handleTopClick} to={`/products/${id}`}>
                     <Card.Section>
                         <Image
                             src={Array.isArray(image) ? image[0] : image}
