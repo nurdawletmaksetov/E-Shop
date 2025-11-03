@@ -42,7 +42,6 @@ const Categories = () => {
         getCategories();
     }, []);
 
-    // 🧹 Agar boshqa sahifaga o'tilsa (masalan home), category tozalansin
     useEffect(() => {
         if (location.pathname !== "/filtered") {
             setSelectedCategory("");

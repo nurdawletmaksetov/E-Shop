@@ -90,7 +90,6 @@ const Basket = () => {
                         Add some products to see them here!
                     </Text>
                 </Flex>
-                {/* <AllProducts /> */}
             </Container>
         );
     }

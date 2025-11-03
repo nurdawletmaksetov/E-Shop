@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Card, Flex, Grid, Group, Image, SimpleGrid, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Card, Flex, Group, Image, SimpleGrid, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { Container } from "../../container/container";
 import { FaHeart, FaShoppingBasket, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";

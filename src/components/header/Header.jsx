@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container } from '../../container/container'
 import { ActionIcon, Badge, Button, Flex, TextInput, Title } from '@mantine/core'
 import { Link, NavLink } from 'react-router-dom'

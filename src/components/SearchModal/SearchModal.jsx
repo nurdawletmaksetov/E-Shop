@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Modal, TextInput, ScrollArea, Flex, Text, ActionIcon, Loader } from "@mantine/core";
 import { Search } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { useFilter } from "../../context/Filter/FilterContext"; // 🔹 Qo‘shildi
+import { useNavigate } from "react-router-dom";
+import { useFilter } from "../../context/Filter/FilterContext";
 
 export const SearchModal = ({ opened, onClose }) => {
     const [query, setQuery] = useState("");
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const { setSelectedCategory } = useFilter(); // 🔹 qo‘shildi
-    const navigate = useNavigate(); // 🔹 navigatsiya uchun
+    const { setSelectedCategory } = useFilter();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!query.trim()) {

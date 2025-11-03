@@ -17,7 +17,7 @@ const BasketNav = ({ selectedItems, totalPrice }) => {
                 align="center"
                 px="lg"
                 py="sm"
-                className={`fixed ${isPhone ? "bottom-[60px]" : "bottom-0"} left-0 right-0 bg-white border-t border-t-[#eee] z-[1000]`}
+                className={`fixed ${isPhone ? "bottom-[60px]" : "bottom-0"} left-0 right-0 bg-white border-t border-t-[#eee] z-99`}
                 style={{
                     boxShadow: "0 -2px 10px rgba(0,0,0,0.05)",
                 }}
