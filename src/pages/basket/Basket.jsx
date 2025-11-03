@@ -35,8 +35,14 @@ const Basket = () => {
     const [checkedItems, setCheckedItems] = useState([]);
 
     useEffect(() => {
-        setCheckedItems(basket.map((item) => item.id));
-    }, [basket]);
+        setCheckedItems((prev) => {
+            const newIds = basket.map((item) => item.id);
+            const prevIds = new Set(prev);
+            const addedItems = newIds.filter((id) => !prevIds.has(id));
+            return [...prev, ...addedItems];
+        });
+    }, [basket.length]);
+
 
     const handleSelectAll = () => {
         if (checkedItems.length === basket.length) {
@@ -84,7 +90,7 @@ const Basket = () => {
                         Add some products to see them here!
                     </Text>
                 </Flex>
-                <AllProducts />
+                {/* <AllProducts /> */}
             </Container>
         );
     }

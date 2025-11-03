@@ -13,12 +13,12 @@ const AllProducts = () => {
 
     async function getProduct() {
         try {
-            const { data } = await api.get('/products');
+            const { data } = await api.get('/products?limit=0');
             const productList = Array.isArray(data) ? data : data.products;
             setProducts(productList);
             console.log(data);
         } catch (error) {
-            console.error('Xato:', error);
+            console.error(error);
         }
     }
 

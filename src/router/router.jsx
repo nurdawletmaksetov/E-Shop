@@ -4,6 +4,7 @@ import Home from "../pages/home/Home";
 import ViewProduct from "../pages/viewProduct/ViewProduct";
 import Favourites from "../pages/favourites/Favourites";
 import Basket from "../pages/basket/Basket";
+import FilteredPage from "../pages/filteredPage/FilteredPage";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
             {
                 path: "/basket",
                 element: <Basket />
+            },
+            {
+                path: "/filtered",
+                element: <FilteredPage />
             }
         ]
     }

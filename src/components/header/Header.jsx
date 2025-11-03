@@ -3,11 +3,13 @@ import { Container } from '../../container/container'
 import { ActionIcon, Badge, Button, Flex, TextInput, Title } from '@mantine/core'
 import { Link, NavLink } from 'react-router-dom'
 import { Heart, Search, ShoppingBasket, User } from 'lucide-react'
-import { useMediaQuery } from '@mantine/hooks'
+import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { useFavoritesStore } from '../../store/useFavoritesStore'
 import { useBasketStore } from '../../store/useBasketStore'
+import { SearchModal } from '../SearchModal/SearchModal'
 
 export const Header = ({ matches }) => {
+    const [opened, { open, close }] = useDisclosure(false);
 
     const favourites = useFavoritesStore((state) => state.favorites);
 
@@ -21,6 +23,7 @@ export const Header = ({ matches }) => {
 
     return (
         <>
+            <SearchModal opened={opened} onClose={close} />
             <header className={hideBar ? "" : "bg-white sticky top-0 left-0 right-0 z-40"}>
                 <Container>
                     <Flex gap={15} align={"center"} py={20} justify={"space-between"}>
@@ -45,9 +48,11 @@ export const Header = ({ matches }) => {
                         </Link>
                         {hideBar && (
                             <TextInput
+                                disabled={opened}
                                 size={matches ? "sm" : "xs"}
                                 w={matches ? 500 : "100%"}
                                 placeholder="Search goods"
+                                onClick={open}
                                 rightSection={
                                     <ActionIcon
                                         size={matches ? "sm" : "xs"}
@@ -140,6 +145,7 @@ export const Header = ({ matches }) => {
                             <>
                                 <Flex align={"center"} gap={20}>
                                     <ActionIcon
+                                        onClick={open}
                                         size={"md"}
                                         className='cursor-pointer'
                                         variant="transparent"
@@ -152,6 +158,7 @@ export const Header = ({ matches }) => {
                                             size={"md"}
                                             className='cursor-pointer'
                                             variant="transparent"
+                                            onClick={open}
                                             type="submit"
                                         >
                                             <Heart color='#7f4dff' size={20} />
