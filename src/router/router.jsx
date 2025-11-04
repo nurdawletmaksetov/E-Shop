@@ -6,6 +6,8 @@ import Favourites from "../pages/favourites/Favourites";
 import Basket from "../pages/basket/Basket";
 import FilteredPage from "../pages/filteredPage/FilteredPage";
 import { Catalog } from "../pages/catalog/Catalog";
+import Login from "../pages/login/Login";
+import { PrivateRoute } from "../privateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -26,7 +28,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/basket",
-                element: <Basket />
+                element: (
+                    <PrivateRoute>
+                        <Basket />
+                    </PrivateRoute>
+                )
             },
             {
                 path: "/filtered",
@@ -35,6 +41,10 @@ export const router = createBrowserRouter([
             {
                 path: "/catalog",
                 element: <Catalog />
+            },
+            {
+                path: "/login",
+                element: <Login />
             }
         ]
     }
