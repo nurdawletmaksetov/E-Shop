@@ -12,11 +12,12 @@ const Categories = ({ handleTopClick }) => {
     const isLarge = useMediaQuery("(min-width: 1200px)");
     const isMedium = useMediaQuery("(min-width: 768px) and (max-width: 1199px)");
     const isSmall = useMediaQuery("(max-width: 830px)");
+    const isPhone = useMediaQuery("(max-width: 560px)");
     const { selectedCategory, setSelectedCategory } = useFilter();
     const navigate = useNavigate();
     const location = useLocation();
 
-    const visibleCount = isLarge ? 9 : isMedium ? 7 : 5;
+    const visibleCount = isLarge ? 9 : isMedium ? 7 : isPhone ? 4 : 5;
 
     const handleRadioChangeCategory = (category) => {
         const selected =

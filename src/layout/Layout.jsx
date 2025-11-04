@@ -8,7 +8,7 @@ import Footer from '../components/footer/Footer'
 
 export const Layout = () => {
     const matches = useMediaQuery('(min-width: 800px)');
-    const phone = useMediaQuery('(min-width: 600px)');
+    const phone = useMediaQuery('(min-width: 500px)');
 
     const handleTopClick = () => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });

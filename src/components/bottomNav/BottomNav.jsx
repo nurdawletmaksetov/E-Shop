@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { useBasketStore } from "../../store/useBasketStore";
 
 export const BottomNav = () => {
-    const isMobile = useMediaQuery("(max-width: 600px)");
+    const isMobile = useMediaQuery("(max-width: 500px)");
 
     const basket = useBasketStore((state) => state.basket);
 
@@ -39,7 +39,7 @@ export const BottomNav = () => {
                 </Flex>
             </NavLink>
 
-            <NavLink to="/" onClick={handleTopClick}>
+            <NavLink to="/catalog" onClick={handleTopClick}>
                 <Flex direction={"column"} justify={"center"} align={"center"}>
                     <Search size={25} color="#7f4dff" />
                     <Text size="xs" c={"#7f4dff"}>

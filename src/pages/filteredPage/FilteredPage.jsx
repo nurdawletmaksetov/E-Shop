@@ -13,10 +13,12 @@ import {
     SimpleGrid,
     Stack,
     Text,
+    Title,
 } from "@mantine/core";
 import OneProduct from "../../components/product/oneProduct/one-product";
 import { useMediaQuery } from "@mantine/hooks";
 import { useLocation } from "react-router-dom";
+import AllProducts from "../../components/product/allProduct/all-products";
 
 const FilteredPage = () => {
     const { selectedCategory } = useFilter();
@@ -233,6 +235,8 @@ const FilteredPage = () => {
                             <Button color="red" onClick={() => setFilters({ ...filters, price: [0, 5000] })}>Remove Filters</Button>
                         </Stack>
                     )}
+                    <Title order={4} mt={15}>Others</Title>
+                    <AllProducts />
                 </Flex>
             </Flex>
         </Container>
