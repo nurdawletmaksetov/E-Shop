@@ -6,7 +6,7 @@ import { router } from './router/router'
 
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
-import { FilterProvider } from './context/Filter/FilterContext'
+import { FilterProvider } from './context/Filter/FilterContext.jsx'
 
 function App() {
   const theme = createTheme({
