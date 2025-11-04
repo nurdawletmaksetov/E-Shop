@@ -13,14 +13,16 @@ import {
     Title,
 } from "@mantine/core";
 import { Search } from "lucide-react";
-import { useMediaQuery } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import CategoryCard from "./CategoryCard";
 import { api } from "../../api/api";
 import { Container } from "../../container/container";
+import { SearchModal } from "../../components/SearchModal/SearchModal";
 
 export const Catalog = () => {
     const hideCategoryPage = useMediaQuery("(max-width: 500px)");
     const [categories, setCategories] = useState([]);
+    const [opened, { open, close }] = useDisclosure(false);
 
     async function getCategories() {
         try {
@@ -57,6 +59,7 @@ export const Catalog = () => {
 
     return (
         <>
+            <SearchModal opened={opened} onClose={close} />
             <Container>
                 {hideCategoryPage && (
                     <Stack p="md" gap="md">
@@ -64,6 +67,8 @@ export const Catalog = () => {
                             placeholder="Search products..."
                             icon={<Search size={18} />}
                             radius="md"
+                            onClick={open}
+                            disabled={opened}
                         />
                         <Title order={isSmall ? 4 : 3}>Categories</Title>
                         <ScrollArea h={500}>

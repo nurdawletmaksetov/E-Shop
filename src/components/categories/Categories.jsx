@@ -5,7 +5,6 @@ import { Container } from "../../container/container";
 import { useMediaQuery } from "@mantine/hooks";
 import { useFilter } from "../../context/Filter/FilterContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { notifications } from "@mantine/notifications";
 
 const Categories = ({ handleTopClick }) => {
     const [categories, setCategories] = useState([]);
