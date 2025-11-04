@@ -6,6 +6,7 @@ import { router } from './router/router'
 
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
+import { FilterProvider } from './context/Filter/FilterContext'
 
 function App() {
   const theme = createTheme({
@@ -18,11 +19,13 @@ function App() {
 
   return (
     <>
-      <MantineProvider theme={theme}>
-        <ModalsProvider>
-          <RouterProvider router={router} />
-        </ModalsProvider>
-      </MantineProvider>
+      <FilterProvider>
+        <MantineProvider theme={theme}>
+          <ModalsProvider>
+            <RouterProvider router={router} />
+          </ModalsProvider>
+        </MantineProvider>
+      </FilterProvider>
     </>
   )
 }
