@@ -1,11 +1,13 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../store/useAuth";
 
 export const PrivateRoute = ({ children }) => {
-    const { isAuthenticated, isLoading } = useAuth();
+    const { isAuthenticated } = useAuth();
+    const location = useLocation();
 
-    if (isLoading) return <p>Loading...</p>;
+    if (!isAuthenticated) {
+        return <Navigate to="/login" state={{ from: location }} replace />;
+    }
 
-    return isAuthenticated ? children : <Navigate to="/login" replace />;
+    return children;
 };

@@ -8,6 +8,7 @@ import FilteredPage from "../pages/filteredPage/FilteredPage";
 import { Catalog } from "../pages/catalog/Catalog";
 import Login from "../pages/login/Login";
 import { PrivateRoute } from "../privateRoute/PrivateRoute";
+import Room from "../pages/room/Room";
 
 export const router = createBrowserRouter([
     {
@@ -41,6 +42,14 @@ export const router = createBrowserRouter([
             {
                 path: "/catalog",
                 element: <Catalog />
+            },
+            {
+                path: "/room/:id",
+                element: (
+                    <PrivateRoute>
+                        <Room />
+                    </PrivateRoute>
+                )
             },
             {
                 path: "/login",

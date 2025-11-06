@@ -66,19 +66,21 @@ export const Header = ({ matches, handleTopClick }) => {
                         )}
                         {hideBar ? (
                             <Flex gap={matches ? 10 : 5} align={"center"}>
-                                <Button
-                                    size={matches ? "sm" : "xs"}
-                                    variant="light"
-                                    color="#7f4dff"
-                                >
-                                    {matches ? (
-                                        <Flex justify={"space-between"} gap={6}>
-                                            <User color="#7f4dff" size={16} /> Sign In
-                                        </Flex>
-                                    ) : (
-                                        <User color="#7f4dff" size={16} />
-                                    )}
-                                </Button>
+                                <NavLink to={`/room/1`} onClick={handleTopClick}>
+                                    <Button
+                                        size={matches ? "sm" : "xs"}
+                                        variant="light"
+                                        color="#7f4dff"
+                                    >
+                                        {matches ? (
+                                            <Flex justify={"space-between"} gap={6}>
+                                                <User color="#7f4dff" size={16} /> Sign In
+                                            </Flex>
+                                        ) : (
+                                            <User color="#7f4dff" size={16} />
+                                        )}
+                                    </Button>
+                                </NavLink>
                                 <NavLink to="/favourites" onClick={handleTopClick} className={"relative"}>
                                     <Button
                                         size={matches ? "sm" : "xs"}
@@ -168,7 +170,7 @@ export const Header = ({ matches, handleTopClick }) => {
                         )}
                     </Flex>
                 </Container>
-            </header>
+            </header >
         </>
     )
 }
