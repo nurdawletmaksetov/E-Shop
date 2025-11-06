@@ -79,7 +79,6 @@ const OneProduct = (props) => {
         }
     };
 
-
     const handleIncrement = () => {
         if (quantity < stock) increaseQuantityFn(id);
     };
