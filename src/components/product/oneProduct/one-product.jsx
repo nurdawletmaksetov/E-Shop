@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Button, Card, Flex, Group, Image, Modal, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Badge, Button, Card, Flex, Group, Image, Modal, Skeleton, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { FaHeart, FaMinus, FaPlus, FaRegHeart, FaShoppingBasket, FaStar, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -20,7 +20,8 @@ const OneProduct = (props) => {
         id,
         returnPolicy,
         discountPercentage,
-        shippingInformation
+        shippingInformation,
+        loading
     } = props;
     const { favorites, toggleFavoriteFn } = useFavoritesStore();
     const {
@@ -106,97 +107,116 @@ const OneProduct = (props) => {
             >
                 <Link onClick={handleTopClick} to={`/products/${id}`}>
                     <Card.Section>
-                        <Image
-                            src={Array.isArray(image) ? image[0] : image}
-                            height={160}
-                            alt={title}
-                            fit="cover"
-                        />
+                        {loading ? (
+                            <Skeleton height={isSmallest ? 160 : 274} w={274} fit="cover" />
+                        ) : (
+
+                            <Image
+                                src={Array.isArray(image) ? image[0] : image}
+                                height={160}
+                                alt={title}
+                                fit="cover"
+                            />
+                        )}
                     </Card.Section>
 
-                    <Text mt={5} size="sm" c="#7f4dff" fw={600}>
-                        ${price} USD
-                    </Text>
+                    {loading ? (
+                        <Skeleton mt={5} height={20} w={80} />
+                    ) : (
+                        <Text mt={5} size="sm" c="#7f4dff" fw={600}>
+                            ${price} USD
+                        </Text>
+                    )}
 
                     <Group my={5}>
-                        <Text size={isSmall ? "13px" : "16px"} fw={400} h={isSmall ? 25 : 30}>
-                            {title}
-                        </Text>
+                        {loading ? (
+                            <Skeleton height={15} w={"100%"} />
+                        ) : (
+                            <Text size={isSmall ? "13px" : "16px"} fw={400} h={isSmall ? 25 : 30}>
+                                {title}
+                            </Text>
+                        )}
                     </Group>
-
-                    <Flex gap={5} align="center">
-                        <FaStar className="text-yellow-500" size={13} />
-                        <Text c="gray" size="13px">{rating?.toFixed(1)}</Text>
-                        <Text c="gray" size="13px">({reviews?.length || 0} reviews)</Text>
-                    </Flex>
-                </Link>
-
-                <Flex align="center" justify="space-between" mt="md" gap={isSmall ? 4 : 8}>
-                    <Tooltip
-                        label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-                        position="top"
-                        withArrow
-                        color="violet"
-                    >
-                        <ActionIcon
-                            variant="filled"
-                            color={isFavorite ? "red" : "#7f4dff"}
-                            radius="md"
-                            size={isSmall ? "md" : "lg"}
-                            style={{ transition: "all 0.2s ease" }}
-                            onClick={() => toggleFavoriteFn({ id, title, price, image, rating, reviews })}
-                        >
-                            {isFavorite ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
-                        </ActionIcon>
-                    </Tooltip>
-                    {!inBasket ? (
-                        <Button
-                            fullWidth
-                            radius="md"
-                            size={isSmall ? "xs" : "sm"}
-                            variant="filled"
-                            color="#7f4dff"
-                            leftSection={<FaShoppingBasket size={16} />}
-                            style={{
-                                fontWeight: 600,
-                                letterSpacing: "0.3px",
-                            }}
-                            onClick={handleAddClick}
-
-                        >
-                            {isSmall ? "Add" : "Add to Basket"}
-                        </Button>
+                    {loading ? (
+                        <Skeleton height={10} w={100} />
                     ) : (
-                        <Flex
-                            align="center"
-                            justify="space-between"
-                            w="100%"
-                            bg="#f3eaff"
-                            px={isSmall ? 5 : 10}
-                            py={isSmall ? 0 : 5}
-                            style={{ borderRadius: "8px" }}
-                        >
-                            <ActionIcon
-                                onClick={handleDecrement}
-                                color="#7f4dff"
-                                variant="transparent"
-                                radius="xl"
-                            >
-                                <FaMinus />
-                            </ActionIcon>
-                            <Text fw={600}>{quantity}</Text>
-                            <ActionIcon
-                                onClick={handleIncrement}
-                                color="#7f4dff"
-                                variant="transparent"
-                                radius="xl"
-                                disabled={quantity === stock}
-                            >
-                                <FaPlus />
-                            </ActionIcon>
+                        <Flex gap={5} align="center">
+                            <FaStar className="text-yellow-500" size={13} />
+                            <Text c="gray" size="13px">{rating?.toFixed(1)}</Text>
+                            <Text c="gray" size="13px">({reviews?.length || 0} reviews)</Text>
                         </Flex>
                     )}
-                </Flex>
+                </Link>
+                {loading ? (
+                    <Skeleton mt={10} height={20} w={"100%"} />
+                ) : (
+                    <Flex align="center" justify="space-between" mt="md" gap={isSmall ? 4 : 8}>
+                        <Tooltip
+                            label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                            position="top"
+                            withArrow
+                            color="violet"
+                        >
+                            <ActionIcon
+                                variant="filled"
+                                color={isFavorite ? "red" : "#7f4dff"}
+                                radius="md"
+                                size={isSmall ? "md" : "lg"}
+                                style={{ transition: "all 0.2s ease" }}
+                                onClick={() => toggleFavoriteFn({ id, title, price, image, rating, reviews })}
+                            >
+                                {isFavorite ? <FaHeart size={16} /> : <FaRegHeart size={16} />}
+                            </ActionIcon>
+                        </Tooltip>
+                        {!inBasket ? (
+                            <Button
+                                fullWidth
+                                radius="md"
+                                size={isSmall ? "xs" : "sm"}
+                                variant="filled"
+                                color="#7f4dff"
+                                leftSection={<FaShoppingBasket size={16} />}
+                                style={{
+                                    fontWeight: 600,
+                                    letterSpacing: "0.3px",
+                                }}
+                                onClick={handleAddClick}
+
+                            >
+                                {isSmall ? "Add" : "Add to Basket"}
+                            </Button>
+                        ) : (
+                            <Flex
+                                align="center"
+                                justify="space-between"
+                                w="100%"
+                                bg="#f3eaff"
+                                px={isSmall ? 5 : 10}
+                                py={isSmall ? 0 : 5}
+                                style={{ borderRadius: "8px" }}
+                            >
+                                <ActionIcon
+                                    onClick={handleDecrement}
+                                    color="#7f4dff"
+                                    variant="transparent"
+                                    radius="xl"
+                                >
+                                    <FaMinus />
+                                </ActionIcon>
+                                <Text fw={600}>{quantity}</Text>
+                                <ActionIcon
+                                    onClick={handleIncrement}
+                                    color="#7f4dff"
+                                    variant="transparent"
+                                    radius="xl"
+                                    disabled={quantity === stock}
+                                >
+                                    <FaPlus />
+                                </ActionIcon>
+                            </Flex>
+                        )}
+                    </Flex>
+                )}
                 {!hiddeModal ? (
                     <Modal
                         opened={opened}

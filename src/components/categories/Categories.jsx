@@ -1,4 +1,4 @@
-import { Button, Flex, Select, Text } from "@mantine/core";
+import { Button, Flex, Select, Skeleton, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { api } from "../../api/api";
 import { Container } from "../../container/container";
@@ -15,6 +15,7 @@ const Categories = ({ handleTopClick }) => {
     const { selectedCategory, setSelectedCategory } = useFilter();
     const navigate = useNavigate();
     const location = useLocation();
+    const [loading, setLoading] = useState(true);
 
     const visibleCount = isLarge ? 9 : isMedium ? 7 : isPhone ? 4 : 5;
 
@@ -32,11 +33,14 @@ const Categories = ({ handleTopClick }) => {
     const visibleCategories = categories.slice(0, visibleCount);
 
     async function getCategories() {
+        setLoading(true);
         try {
             const { data } = await api.get("/products/categories");
             setCategories(data);
         } catch (error) {
             console.error("Error fetching categories:", error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -54,24 +58,25 @@ const Categories = ({ handleTopClick }) => {
     return (
         <Container>
             <Flex py={5} align="center" justify="space-between" wrap="wrap" gap="md">
-                {visibleCategories.map((el, i) => (
-                    <Button
-                        key={i}
-                        variant="transparent"
-                        color={
-                            selectedCategory === (el.slug || el.name)
-                                ? "#7f4dff"
-                                : "black"
-                        }
-                        onClick={() => handleRadioChangeCategory(el)}
-                        radius="md"
-                        p={0}
-                    >
-                        <Text size={isSmall ? "xs" : "sm"} tt="capitalize">
-                            {el.name || el.slug || String(el)}
-                        </Text>
-                    </Button>
+                {(loading ? Array.from({ length: visibleCount }) : visibleCategories).map((el, i) => (
+                    loading ? (
+                        <Skeleton key={i} height={20} width={80} radius="md" />
+                    ) : (
+                        <Button
+                            key={i}
+                            variant="transparent"
+                            color={selectedCategory === (el.slug || el.name) ? "#7f4dff" : "black"}
+                            onClick={() => handleRadioChangeCategory(el)}
+                            radius="md"
+                            p={0}
+                        >
+                            <Text size={isSmall ? "xs" : "sm"} tt="capitalize">
+                                {el.name || el.slug || String(el)}
+                            </Text>
+                        </Button>
+                    )
                 ))}
+
 
                 {categories.length > visibleCount && (
                     <Select
