@@ -2,21 +2,24 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container } from '../../container/container';
 import { api } from '../../api/api';
-import { Card, Image, Text, Group, Stack, Badge, Skeleton } from '@mantine/core';
+import { Card, Image, Text, Group, Stack, Badge, Skeleton, Modal, Button, Flex } from '@mantine/core';
 
 const Room = () => {
     const { id } = useParams();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         async function getUser() {
             setLoading(true);
+            setError(false);
             try {
                 const { data } = await api.get(`/users/${id}`);
                 setUser(data);
-            } catch (error) {
-                console.error(error);
+            } catch (err) {
+                console.error('Server Error:', err);
+                setError(true);
             } finally {
                 setLoading(false);
             }
@@ -69,6 +72,22 @@ const Room = () => {
                     </Stack>
                 </Group>
             </Container>
+            <Modal
+                opened={error}
+                onClose={() => setError(false)}
+                centered
+                title="Server Error"
+            >
+                <Text color="red" size="sm">
+                    There was a problem connecting to the server.
+                    Please try again later.
+                </Text>
+                <Flex justify="flex-end" mt="md">
+                    <Button color="red" onClick={() => setError(false)}>
+                        Close
+                    </Button>
+                </Flex>
+            </Modal>
         </section>
     );
 };

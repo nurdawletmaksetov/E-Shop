@@ -1,4 +1,4 @@
-import { Flex, Stack, Title, Text, Card, Badge, Button, ActionIcon } from '@mantine/core'
+import { Flex, Stack, Title, Text, Card, Badge, Button, ActionIcon, Modal } from '@mantine/core'
 import { Container } from '../../container/container'
 import { useEffect, useState } from 'react'
 import { api } from '../../api/api'
@@ -17,6 +17,7 @@ const ViewProduct = () => {
     const { id } = useParams()
     const isSmall = useMediaQuery("(max-width: 700px)");
     const { favorites, toggleFavoriteFn } = useFavoritesStore();
+    const [error, setError] = useState(false);
 
     const isFavorite = favorites.some((item) => String(item.id) === String(id));
 
@@ -40,12 +41,14 @@ const ViewProduct = () => {
         else toggleBasketFn({ id });
     };
     async function getOneProduct() {
+        setError(false)
         try {
             const { data } = await api.get(`/products/${id}`)
             setOneProduct(data)
             console.log(data)
         } catch (error) {
             console.error(error)
+            setError(true)
         }
     }
 
@@ -218,6 +221,23 @@ const ViewProduct = () => {
                     </Stack>
                 </Flex>
                 <AllProducts />
+
+                <Modal
+                    opened={error}
+                    onClose={() => setError(false)}
+                    title="Network Error"
+                    centered
+                >
+                    <Text color="red" size="sm">
+                        There was a problem connecting to the server.
+                        Please try again later.
+                    </Text>
+                    <Flex justify="flex-end" mt="md">
+                        <Button color="red" onClick={() => setError(false)}>
+                            Close
+                        </Button>
+                    </Flex>
+                </Modal>
             </Container>
         </section>
     )

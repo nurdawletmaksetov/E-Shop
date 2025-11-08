@@ -21,16 +21,17 @@ const AllProducts = ({ handleTopClick }) => {
             const productList = Array.isArray(data) ? data : data.products;
             setProducts(productList);
 
-            setTimeout(() => {
-                setLoading(false);
-                if (!productList || productList.length === 0) {
-                    setError(true);
-                }
-            }, 3000);
+            // setTimeout(() => {
+            // setLoading(false);
+            if (!productList || productList.length === 0) {
+                setError(true);
+            }
+            // }, 3000);
         } catch (error) {
             console.error('Network Error:', error);
-            setLoading(false);
             setError(true);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -97,12 +98,12 @@ const AllProducts = ({ handleTopClick }) => {
                 title="Network Error"
             >
                 <Text color="red" size="sm">
-                    Server bilan bog‘lanishda muammo yuz berdi yoki mahsulotlar topilmadi.
-                    Iltimos, keyinroq qayta urinib ko‘ring.
+                    There was a problem connecting to the server.
+                    Please try again later.
                 </Text>
                 <Flex justify="flex-end" mt="md">
                     <Button color="red" onClick={() => setError(false)}>
-                        Yopish
+                        Close
                     </Button>
                 </Flex>
             </Modal>

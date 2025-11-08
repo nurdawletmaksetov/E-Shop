@@ -1,4 +1,4 @@
-import { Button, Flex, Select, Skeleton, Text } from "@mantine/core";
+import { Button, Flex, Modal, Select, Skeleton, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { api } from "../../api/api";
 import { Container } from "../../container/container";
@@ -16,6 +16,7 @@ const Categories = ({ handleTopClick }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     const visibleCount = isLarge ? 9 : isMedium ? 7 : isPhone ? 4 : 5;
 
@@ -34,11 +35,13 @@ const Categories = ({ handleTopClick }) => {
 
     async function getCategories() {
         setLoading(true);
+        setError(false);
         try {
             const { data } = await api.get("/products/categories");
             setCategories(data);
         } catch (error) {
             console.error("Error fetching categories:", error);
+            setError(true);
         } finally {
             setLoading(false);
         }
@@ -95,6 +98,22 @@ const Categories = ({ handleTopClick }) => {
                     />
                 )}
             </Flex>
+            <Modal
+                opened={error}
+                onClose={() => setError(false)}
+                title="Network Error"
+                centered
+            >
+                <Text color="red" size="sm">
+                    There was a problem connecting to the server.
+                    Please try again later.
+                </Text>
+                <Flex justify="flex-end" mt="md">
+                    <Button color="red" onClick={() => setError(false)}>
+                        Close
+                    </Button>
+                </Flex>
+            </Modal>
         </Container>
     );
 };
