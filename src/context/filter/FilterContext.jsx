@@ -1,10 +1,23 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState, useEffect } from "react";
 
 const FilterContext = createContext(null);
 
 export const FilterProvider = ({ children }) => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [searchQuery, setSearchQuery] = useState(() => {
+        return localStorage.getItem("searchQuery") || "";
+    });
+
+    const [selectedCategory, setSelectedCategory] = useState(() => {
+        return localStorage.getItem("selectedCategory") || "";
+    });
+
+    useEffect(() => {
+        localStorage.setItem("searchQuery", searchQuery);
+    }, [searchQuery]);
+
+    useEffect(() => {
+        localStorage.setItem("selectedCategory", selectedCategory);
+    }, [selectedCategory]);
 
     const value = useMemo(
         () => ({

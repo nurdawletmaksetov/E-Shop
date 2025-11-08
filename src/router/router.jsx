@@ -51,10 +51,10 @@ export const router = createBrowserRouter([
                     </PrivateRoute>
                 )
             },
-            {
-                path: "/login",
-                element: <Login />
-            }
         ]
+    },
+    {
+        path: "/login",
+        element: <Login />
     }
 ])

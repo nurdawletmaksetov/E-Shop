@@ -72,7 +72,7 @@ export const BottomNav = () => {
                 )}
             </NavLink>
 
-            <NavLink onClick={handleTopClick} to="/">
+            <NavLink onClick={handleTopClick} to="/room/1">
                 <Flex direction={"column"} justify={"center"} align={'center'}>
                     <User size={25} color="#7f4dff" />
                     <Text size="xs" c={"#7f4dff"}>

@@ -11,6 +11,7 @@ import {
     Flex,
     SimpleGrid,
     Title,
+    Modal,
 } from "@mantine/core";
 import { Search } from "lucide-react";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
@@ -23,14 +24,17 @@ export const Catalog = () => {
     const hideCategoryPage = useMediaQuery("(max-width: 500px)");
     const [categories, setCategories] = useState([]);
     const [opened, { open, close }] = useDisclosure(false);
+    const [error, setError] = useState(false);
 
     async function getCategories() {
+        setError(false);
         try {
             const { data } = await api.get("/products/categories");
             setCategories(data || []);
         } catch (error) {
             console.error("Error fetching categories:", error);
             setCategories([]);
+            setError(true);
         }
     }
 
@@ -47,15 +51,15 @@ export const Catalog = () => {
 
     const isSmall = useMediaQuery("(max-width: 400px)");
 
-    if (categories.length === 0) {
-        return (
-            <Container size="lg" py={80}>
-                <Flex justify="center" align="center" direction="column">
-                    <Title order={3}>Some things went wrong</Title>
-                </Flex>
-            </Container>
-        )
-    }
+    // if (categories.length === 0) {
+    //     return (
+    //         <Container size="lg" py={80}>
+    //             <Flex justify="center" align="center" direction="column">
+    //                 <Title order={3}>Some things went wrong</Title>
+    //             </Flex>
+    //         </Container>
+    //     )
+    // }
 
     return (
         <>
@@ -91,6 +95,22 @@ export const Catalog = () => {
                         </ScrollArea>
                     </Stack>
                 )}
+                <Modal
+                    opened={error}
+                    onClose={() => setError(false)}
+                    title="Network Error"
+                    centered
+                >
+                    <Text color="red" size="sm">
+                        There was a problem connecting to the server.
+                        Please try again later.
+                    </Text>
+                    <Flex justify="flex-end" mt="md">
+                        <Button color="red" onClick={() => setError(false)}>
+                            Close
+                        </Button>
+                    </Flex>
+                </Modal>
             </Container>
         </>
     );
