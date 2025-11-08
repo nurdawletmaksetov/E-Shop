@@ -39,7 +39,7 @@ const FilteredPage = () => {
         rating: 0,
     });
 
-    const [priceLimits, setPriceLimits] = useState({ min: 0, max: 5000 });
+    const [priceLimits, setPriceLimits] = useState({});
 
     const normalize = (str) => str?.toLowerCase().replace(/[-_.\s]+/g, "");
 
@@ -232,7 +232,7 @@ const FilteredPage = () => {
                             <Text color="red" mt="md">
                                 Nothing found for this filter
                             </Text>
-                            <Button color="red" onClick={() => setFilters({ ...filters, price: [0, 5000] })}>Remove Filters</Button>
+                            <Button color="red" onClick={() => setFilters({ ...filters, rating: 0, brands: [], price: [priceLimits.min, priceLimits.max] })}>Remove Filters</Button>
                         </Stack>
                     )}
                     <Title order={4} mt={15}>Others</Title>
